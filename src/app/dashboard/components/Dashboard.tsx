@@ -2,15 +2,17 @@
 import React, { useState } from "react";
 import { Card, CardDescription, CardHeader } from "@/components/ui/card";
 import { BanknoteArrowUp, DollarSign, PiggyBank } from "lucide-react";
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 import {
-  ChartConfig,
-  ChartContainer,
-  ChartLegend,
-  ChartLegendContent,
-  ChartTooltip,
- 
-} from "@/components/ui/chart";
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  Legend,
+  CartesianGrid,
+} from "recharts";
+
 import { useUser } from "@clerk/nextjs";
 import {
   Pagination,
@@ -130,7 +132,7 @@ export default function Dashboard() {
       label: "Spent",
       color: "#60a5fa",
     },
-  } satisfies ChartConfig;
+  } 
 
   // Loading overall (any query loading)
   const loading =
@@ -210,23 +212,23 @@ export default function Dashboard() {
           <div className="grid md:grid-cols-3 gap-4 mx-4">
             <div className="md:col-span-2 flex flex-col gap-6">
               <p>Statistiques des budgets recents</p>
-              <ChartContainer config={chartConfig} className="h-1/2 md:w-2xl mx-4">
-                <BarChart accessibilityLayer data={chartData} barSize={20}>
-                  <CartesianGrid vertical={false} />
-                  <XAxis
-                    dataKey="name"
-                    tickLine={false}
-                    tickMargin={10}
-                    axisLine={false}
-                    tickFormatter={(value) => value.slice(0, 6)}
-                  />
-                  {/* <ChartTooltip content={<ChartTooltipContent />} /> */}
-                  <ChartLegend content={<ChartLegendContent payload={undefined} />} />
-                  <Bar dataKey="total" fill="#10b981" radius={4} />{" "}
-                  <Bar dataKey="spent" fill="#dc2626" radius={4} />
-                </BarChart>
-              </ChartContainer>
-
+              <ResponsiveContainer width="100%" height={300}>
+      <BarChart data={chartData} barSize={20} accessibilityLayer>
+        <CartesianGrid vertical={false} strokeDasharray="3 3" />
+        <XAxis
+          dataKey="name"
+          tickLine={false}
+          tickMargin={10}
+          axisLine={false}
+          tickFormatter={(value) => value.slice(0, 6)}
+        />
+        <YAxis />
+        <Tooltip /> {/* Default Recharts tooltip */}
+        <Legend />
+        <Bar dataKey="total" fill="#10b981" radius={4} />
+        <Bar dataKey="spent" fill="#dc2626" radius={4} />
+      </BarChart>
+    </ResponsiveContainer>
               <p>Dernières Transactions</p>
               <div className="grid md:grid-cols-2 gap-4 w-full">
                 <div className="flex flex-col">
