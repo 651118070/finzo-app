@@ -1,0 +1,72 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  // output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String         @id @default(uuid())
+  email        String         @unique
+  createdAt    DateTime       @default(now())
+  budgets      Budget[]
+  Subscription Subscription[]
+}
+
+model Budget {
+  id            String         @id @default(uuid())
+  name          String
+  amount        Float
+  userId        String
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  emoji         String?
+  transactions  Transaction[]
+  subscriptions Subscription[]
+  createdAt     DateTime       @default(now())
+}
+
+model Transaction {
+  id          String   @id @default(uuid())
+  description String
+  amount      Float
+  budgetId    String?
+  budget      Budget?  @relation(fields: [budgetId], references: [id], onDelete: Cascade)
+  emoji       String?
+  createdAt   DateTime @default(now())
+}
+
+model Plan {
+  id            String         @id @default(uuid())
+  name          String
+  price         Int // Store price in XAF
+  frequency     String 
+  features      String[] // array of features
+  badge         Boolean        @default(false)
+  subscriptions Subscription[]
+}
+
+model Subscription {
+  id     String @id @default(uuid())
+  user   User   @relation(fields: [userId], references: [id],onDelete:Cascade )
+  userId String
+
+  plan   Plan   @relation(fields: [planId], references: [id],onDelete: Cascade)
+  planId String
+
+  startDate DateTime @default(now())
+  endDate   DateTime
+  active    Boolean  @default(true)
+
+  createdAt DateTime @default(now())
+  Budget    Budget?  @relation(fields: [budgetId], references: [id])
+  budgetId  String?
+}
