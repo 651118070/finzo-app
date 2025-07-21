@@ -9,7 +9,7 @@ import {
   ChartLegend,
   ChartLegendContent,
   ChartTooltip,
-  ChartTooltipContent,
+ 
 } from "@/components/ui/chart";
 import { useUser } from "@clerk/nextjs";
 import {
@@ -220,7 +220,7 @@ export default function Dashboard() {
                     axisLine={false}
                     tickFormatter={(value) => value.slice(0, 6)}
                   />
-                  <ChartTooltip content={<ChartTooltipContent />} />
+                  {/* <ChartTooltip content={<ChartTooltipContent />} /> */}
                   <ChartLegend content={<ChartLegendContent payload={undefined} />} />
                   <Bar dataKey="total" fill="#10b981" radius={4} />{" "}
                   <Bar dataKey="spent" fill="#dc2626" radius={4} />
