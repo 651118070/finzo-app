@@ -123,17 +123,6 @@ export default function Dashboard() {
     };
   });
 
-  const chartConfig = {
-    Total: {
-      label: "Total",
-      color: "#2563eb",
-    },
-    Spent: {
-      label: "Spent",
-      color: "#60a5fa",
-    },
-  } 
-
   // Loading overall (any query loading)
   const loading =
     isTotalAmountLoading ||
@@ -213,7 +202,7 @@ export default function Dashboard() {
             <div className="md:col-span-2 flex flex-col gap-6">
               <p>Statistiques des budgets recents</p>
               <ResponsiveContainer width="100%" height={300}>
-      <BarChart data={chartData} barSize={20} accessibilityLayer>
+      <BarChart data={chartData}  barSize={20} accessibilityLayer>
         <CartesianGrid vertical={false} strokeDasharray="3 3" />
         <XAxis
           dataKey="name"
