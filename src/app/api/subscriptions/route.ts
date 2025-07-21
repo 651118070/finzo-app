@@ -1,12 +1,7 @@
-// pages/api/subscription-check.ts (or /app/api/subscription-check/route.ts for Next.js 13 app dir)
-import type { NextApiRequest, NextApiResponse } from "next";
-import prisma from "@/lib/prisma"; // Adjust import path as needed
+import { NextResponse } from "next/server";
+import prisma from "@/lib/prisma";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== "GET") {
-    return res.status(405).json({ message: "Method Not Allowed" });
-  }
-
+export async function GET() {
   const now = new Date();
 
   try {
@@ -21,7 +16,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     });
 
     if (expiredSubscriptions.length === 0) {
-      return res.status(200).json({ message: "No expired subscriptions found." });
+      return NextResponse.json({ message: "No expired subscriptions found." });
     }
 
     const starterPlan = await prisma.plan.findFirst({
@@ -29,7 +24,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     });
 
     if (!starterPlan) {
-      return res.status(500).json({ message: "Starter plan not found." });
+      return NextResponse.json({ message: "Starter plan not found." }, { status: 500 });
     }
 
     for (const sub of expiredSubscriptions) {
@@ -42,9 +37,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       });
     }
 
-    return res.status(200).json({ message: "Expired subscriptions reset to Starter.", count: expiredSubscriptions.length });
+    return NextResponse.json({ message: "Expired subscriptions reset to Starter.", count: expiredSubscriptions.length });
   } catch (error) {
     console.error("Error during subscription check:", error);
-    return res.status(500).json({ message: "Internal server error", error: String(error) });
+    return NextResponse.json({ message: "Internal server error", error: String(error) }, { status: 500 });
   }
 }
