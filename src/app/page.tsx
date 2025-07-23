@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import {  useUser } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import React from "react";
 import budgets from "./data";
@@ -19,7 +19,8 @@ export default function Home() {
       </h1>
 
       <p className="text-lg text-center text-slate-600 dark:text-slate-400 mb-4">
-      Votre gestion financière personnelle, simplifiée et professionnelle — la solution SaaS qui vous accompagne au quotidien.
+        Votre gestion financière personnelle, simplifiée et professionnelle — la
+        solution SaaS qui vous accompagne au quotidien.
       </p>
 
       {isLoaded && isSignedIn ? (
@@ -43,15 +44,22 @@ export default function Home() {
             ))}
           </div>
           <div className="w-full p-4 flex justify-center">
-      <Card className="dark:bg-transparent bg-slate-50 w-1/2 ">
-        <CardContent className="p-4 flex gap-4 justify-center">
-          <Link href='/pricing'>  <Button className="bg-emerald-500 text-white hover:text-white hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-500 ">Voir nos packages</Button></Link>
-        <Link href='/dashboard'>
-        <Button className=" text-white hover:text-white bg-slate-600">Accedez au tableau de bord</Button>
-        </Link> 
-        </CardContent>
-      </Card> 
-    </div>
+            <Card className="dark:bg-transparent md:w-1/2  ">
+              <CardContent className="p-4 flex flex-col md:flex-row gap-4 justify-center">
+                <Link href="/pricing">
+                  {" "}
+                  <Button className="bg-emerald-500 text-white hover:text-white hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-500 ">
+                    Voir nos packages
+                  </Button>
+                </Link>
+                <Link href="/dashboard">
+                  <Button className=" text-white hover:text-white bg-slate-600 hover:bg-slate-700">
+                    Accedez au tableau de bord
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
+          </div>
         </div>
       ) : (
         <div className="flex flex-col items-center gap-4 w-full">
@@ -79,20 +87,27 @@ export default function Home() {
             ))}
           </div>
           <div className="w-full p-4 flex justify-center">
-      <Card className="dark:bg-transparent bg-slate-50 w-1/2 ">
-        <CardContent className="p-4 flex gap-4 justify-center">
-          <Link href='/pricing'>  <Button className="bg-emerald-500 text-white hover:text-white hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-500 ">Voir nos packages</Button></Link>
-        <Link href='/sign-in'>
-        <Button className=" text-white hover:text-white bg-slate-600">Se connecter</Button>
-        </Link> 
-        </CardContent>
-      </Card> 
-    </div>
+            <Card className="dark:bg-transparent bg-slate-50 w-1/2 ">
+              <CardContent className="p-4 flex gap-4 justify-center">
+                <Link href="/pricing">
+                  {" "}
+                  <Button className="bg-emerald-500 text-white hover:text-white hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-500 ">
+                    Voir nos packages
+                  </Button>
+                </Link>
+                <Link href="/sign-in">
+                  <Button className=" text-white hover:text-white bg-slate-600">
+                    Se connecter
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
+          </div>
         </div>
       )}
 
       {/* Footer */}
-     <Footer/>
+      <Footer />
     </div>
   );
 }
