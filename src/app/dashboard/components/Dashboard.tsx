@@ -228,7 +228,7 @@ export default function Dashboard() {
               </ResponsiveContainer>
               <p>Dernières Transactions</p>
               <div className="grid md:grid-cols-2 gap-4 w-full">
-                <div className="flex flex-col">
+                <div className="flex flex-col gap-4">
                   {transactions.length === 0 ? (
                     <div> Aucune transaction</div>
                   ) : (
