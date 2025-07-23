@@ -96,7 +96,7 @@ export default function Home() {
                   </Button>
                 </Link>
                 <Link href="/sign-in">
-                  <Button className=" text-white hover:text-white bg-slate-600">
+                  <Button className=" text-white hover:text-white hover:bg-slate-900 bg-slate-600">
                     Se connecter
                   </Button>
                 </Link>
