@@ -3,8 +3,7 @@ import prisma from "@/lib/prisma";
 
 export const updateUserSubscription = async (userId: string, newPlanName: string) => {
     try {
-        console.log("user",userId)
-        console.log("plan",newPlanName)
+        
         // 1. Find the plan by its name
         const newPlan = await prisma.plan.findFirst({
           where: {
@@ -15,7 +14,7 @@ export const updateUserSubscription = async (userId: string, newPlanName: string
     
         if (!newPlan) {
           return {
-            message: `Plan with name '${newPlanName}' not found`,
+            message: `Plan avec le nom'${newPlanName}' introuvable`,
             statusCode: 404,
             subscription: null,
           };
@@ -31,7 +30,7 @@ export const updateUserSubscription = async (userId: string, newPlanName: string
     
         if (!activeSub) {
           return {
-            message: "Active subscription not found for this user",
+            message: "Aucune souscription active ",
             statusCode: 404,
             subscription: null,
           };
@@ -52,7 +51,7 @@ export const updateUserSubscription = async (userId: string, newPlanName: string
         });
     
         return {
-          message: "Subscription updated successfully",
+          message: "Souscription mis a jour avec sucess",
           statusCode: 200,
           subscription: updatedSubscription,
         };

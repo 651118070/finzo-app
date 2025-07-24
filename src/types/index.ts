@@ -14,7 +14,7 @@ export type Budget = {
 export type User = {
   id: string;
   email: string;
-  // add other user fields you need here
+  subscription?:Subscription[]
 };
 
 

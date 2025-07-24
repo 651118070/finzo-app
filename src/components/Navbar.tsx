@@ -27,7 +27,6 @@ export default function Navbar() {
     const {isLoaded,isSignedIn,user}=useUser()
     useEffect(()=>{
       if(user?.primaryEmailAddress?.emailAddress){
-        console.log("Checking user:", user.primaryEmailAddress.emailAddress);
         checkUserAction(user.primaryEmailAddress.emailAddress)
       }
     },[user])
@@ -53,7 +52,7 @@ export default function Navbar() {
             <Link href='/transactions'  className='hover:text-slate-600 dark:hover:text-slate-100'> 
             Transactions
             </Link>
-            <UserButton  />
+            
 
           </div>
          <div className='md:hidden z-[2000]'>

@@ -16,9 +16,11 @@ import {
   } from "@/components/ui/dialog";
 
 import { Budget } from '../../../types';
+import { useRouter } from 'next/navigation';
 export default function DeleteBudget({id,budget}:{id:string,budget:Budget | null}) {
       const [open, setOpen] = useState(false);
       const queryClient = useQueryClient();
+      const router=useRouter()
 
       const mutation = useMutation({
         mutationFn: (id: string) => deleteBudgetAction(id),
@@ -26,6 +28,7 @@ export default function DeleteBudget({id,budget}:{id:string,budget:Budget | null
           queryClient.invalidateQueries({ queryKey: ["budgets"] });
           toast.success(response.message);
           setOpen(false);
+          router.push(`/budget`)
         },
         onError: () => {
           toast.error("Une erreur est survenue lors de la suppression du budget.");
@@ -33,8 +36,8 @@ export default function DeleteBudget({id,budget}:{id:string,budget:Budget | null
       });
       
       const handleDelete = () => {
-        if (id) {
-          toast.error("Budget ID is missing.");
+        if (!id) {
+          toast.error("Budget introuvable.");
           return;
         }
         mutation.mutate(id);

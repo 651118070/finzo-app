@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getTransactionByMailAndPeriodAction } from "../../../actions/transactions/getByPeriod";
 import { useUser } from "@clerk/nextjs";
 import TransactionItem from "@/components/TransactionItem";
@@ -27,6 +27,9 @@ import { format } from "date-fns";
 import { toast } from "sonner";
 import { useQuery } from "@tanstack/react-query";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { getUserAction } from "../../../actions/user/get";
+import { Plan } from "@/types";
+
  
 export default function Transactions() {
   const user = useUser();
@@ -34,6 +37,7 @@ export default function Transactions() {
   const[selectedPeriod,setSelectedPeriod]=useState<string>('')
     const [page2, setPage2] = useState(1);
     const [period] = useState("daily");
+    const [userPlan,setUserPlan]=useState<Plan | null>(null)
   const [loading, setLoading] = useState<boolean>(false);
   const [startDate, setStartDate] = useState<Date | undefined>(undefined)
 const [endDate, setEndDate] = useState<Date | undefined>(undefined)
@@ -64,6 +68,33 @@ const [endDate, setEndDate] = useState<Date | undefined>(undefined)
     setPage2(1);
     // react-query auto refetches due to dependency change
   };
+  useEffect(() => {
+    const fetchUser = async () => {
+      setLoading(true);
+      try {
+        const res = await getUserAction(email);
+        console.log('res', res);
+  
+        if (res.user) {
+          const plans = res.user.plan;
+          console.log('plans:', plans);
+          setUserPlan(plans);
+        } else {
+          console.warn('No user found in response');
+          setUserPlan(null);
+        }
+      } catch (error) {
+        console.error('Error fetching user:', error);
+        setUserPlan(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    fetchUser();
+  }, [email]); // Only depend on values that are required
+  
+  
   const handleGeneratePDF = async() => {
     setLoading(true)
     if (!startDate || !endDate) return;
@@ -146,8 +177,8 @@ const [endDate, setEndDate] = useState<Date | undefined>(undefined)
     <div className="m-4">
       {!loading && transactions.length > 0 ? (
         <div className="mt-6">
-         <div className="flex justify-between">
-         <div className="flex justify-between gap-x-6 mb-6">
+         <div className="flex justify-between md:flex-row flex-col">
+         <div className="flex  justify-between gap-x-6 mb-6">
             <h2 className="text-lg font-semibold mb-4">Vos Transactions</h2>
             <select
               value={selectedPeriod}
@@ -166,75 +197,78 @@ const [endDate, setEndDate] = useState<Date | undefined>(undefined)
             </select>
           </div>
           <div>
-          <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-      
-        <Button variant="outline">Exporter les Transactions en PDF</Button>
-      </DialogTrigger>
-
-      <DialogContent className="sm:max-w-[425px]">
-        <div className="flex flex-col gap-4">
-          <h2 className="text-lg font-bold">Exporter les transactions</h2>
-
-          <div>
-            <p>De :</p>
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  data-empty={!startDate}
-                  className="data-[empty=true]:text-muted-foreground w-[280px] justify-start text-left font-normal"
-                >
-                  <CalendarIcon className="mr-2 h-4 w-4" />
-                  {startDate ? format(startDate, "PPP",{locale:fr}) : <span>Choisir une date</span>}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0">
-                <Calendar
-                  mode="single"
-                  selected={startDate}
-                  onSelect={(date) => setStartDate(date ?? undefined)}
-                
-                />
-              </PopoverContent>
-            </Popover>
-          </div>
-
-          <div>
-            <p>À :</p>
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  data-empty={!endDate}
-                  className="data-[empty=true]:text-muted-foreground w-[280px] justify-start text-left font-normal"
-                >
-                  <CalendarIcon className="mr-2 h-4 w-4" />
-                  {endDate ? format(endDate, "PPP",{locale:fr}) : <span>Choisir une date</span>}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0">
-                <Calendar
-                  mode="single"
-                  selected={endDate}
-                  onSelect={(date) => setEndDate(date ?? undefined)}
-                
-                />
-              </PopoverContent>
-            </Popover>
-          </div>
-
-          <Button  className="bg-emerald-500 text-white hover:text-white hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-500 " variant="outline" onClick={handleGeneratePDF} disabled={!startDate || !endDate}>
-            {loading? <div className="rounded-full border-white border-2 border-t-0 animate-spin"></div>: <p>Générer le PDF</p>}
-          </Button>
-        </div>
-      </DialogContent>
-    </Dialog>
+            {
+              userPlan?.name === 'Premium' ?   <Dialog open={open} onOpenChange={setOpen}>
+              <DialogTrigger asChild>
+              
+                <Button variant="outline">Exporter les Transactions en PDF</Button>
+              </DialogTrigger>
+        
+              <DialogContent className="sm:max-w-[425px]">
+                <div className="flex flex-col gap-4">
+                  <h2 className="text-lg font-bold">Exporter les transactions</h2>
+        
+                  <div>
+                    <p>De :</p>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant="outline"
+                          data-empty={!startDate}
+                          className="data-[empty=true]:text-muted-foreground w-[280px] justify-start text-left font-normal"
+                        >
+                          <CalendarIcon className="mr-2 h-4 w-4" />
+                          {startDate ? format(startDate, "PPP",{locale:fr}) : <span>Choisir une date</span>}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0">
+                        <Calendar
+                          mode="single"
+                          selected={startDate}
+                          onSelect={(date) => setStartDate(date ?? undefined)}
+                        
+                        />
+                      </PopoverContent>
+                    </Popover>
+                  </div>
+        
+                  <div>
+                    <p>À :</p>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant="outline"
+                          data-empty={!endDate}
+                          className="data-[empty=true]:text-muted-foreground w-[280px] justify-start text-left font-normal"
+                        >
+                          <CalendarIcon className="mr-2 h-4 w-4" />
+                          {endDate ? format(endDate, "PPP",{locale:fr}) : <span>Choisir une date</span>}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0">
+                        <Calendar
+                          mode="single"
+                          selected={endDate}
+                          onSelect={(date) => setEndDate(date ?? undefined)}
+                        
+                        />
+                      </PopoverContent>
+                    </Popover>
+                  </div>
+        
+                  <Button  className="bg-emerald-500 text-white hover:text-white hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-500 " variant="outline" onClick={handleGeneratePDF} disabled={!startDate || !endDate}>
+                    {loading? <div className="rounded-full border-white border-2 border-t-0 animate-spin"></div>: <p>Générer le PDF</p>}
+                  </Button>
+                </div>
+              </DialogContent>
+            </Dialog> : null
+            }
+        
           </div>
           
           </div> 
        <div className="flex flex-col">
-       <div className="grid md:grid-cols-3 gap-4 w-full">
+       <div className="grid md:grid-cols-3 gap-4 w-full mt-4">
             {transactions.map((transaction) => (
             
                 <Link

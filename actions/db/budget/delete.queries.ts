@@ -7,19 +7,19 @@ export const deleteBudget = async (budgetId: string) => {
         });
         if (!budget) {
             return {
-                message: "Budget not found",
+                message: "Budget introuvable",
                 statusCode: 404,
             };
         }
         return {
-            message: "Budget deleted successfully",
+            message: "Budget supprimer avec  success",
             statusCode: 200,
             budget,
         };
     } catch (error) {
         console.error("Error deleting budget:", error);
         return {
-            message: "Error deleting budget",
+            message: "Error lors de la suppression",
             statusCode: 500,
         };
     }

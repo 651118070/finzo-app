@@ -13,7 +13,7 @@ export const getAllPlans = async () => {
     console.error("Error fetching plans:", error);
     return {
       statusCode: 500,
-      message: "Failed to retrieve plans",
+      message: "Plans introuvable",
     };
   }
 };

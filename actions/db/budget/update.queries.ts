@@ -9,7 +9,7 @@ export const updateBudget = async (budgetId: string, data: Budget) => {
           });
           if (!existingBudget) {
             return {
-              message: "Budget not found",
+              message: "Budget introuvable",
               statusCode: 404,
             };
           }
@@ -35,7 +35,7 @@ export const updateBudget = async (budgetId: string, data: Budget) => {
         });
         if(!budget) {
             return {
-                message: "Budget not found",
+                message: "Budget introuvable",
                 statusCode: 404,
             };
         }
@@ -47,7 +47,7 @@ export const updateBudget = async (budgetId: string, data: Budget) => {
     } catch (error) {
         console.error("Error updating budget:", error);
         return {
-            message: "Error updating budget",
+            message: "Erreur lors de la modification",
             statusCode: 500,
         };
     }

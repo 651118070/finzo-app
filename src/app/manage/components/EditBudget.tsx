@@ -115,7 +115,7 @@ export default function EditBudget({id,budget}:{id:string,budget:Budget | null})
               setShowEmojiPicker1(!emojiPicker1);
             }}
           >
-            {budgetEmoji  || budget?.emoji}
+            {budgetEmoji  || budget?.emoji }
           </Button>
           {emojiPicker1 && (
             <EmojiPicker onEmojiClick={handleBudgetEmojiSelected} />

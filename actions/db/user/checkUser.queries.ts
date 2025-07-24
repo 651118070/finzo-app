@@ -37,13 +37,13 @@ export const checkUser = async (email: string) => {
       });
 
       return {
-        message: "User created and free plan assigned",
+        message: "User cree avec sucess",
         statusCode: 201,
         user: newUser,
       };
     } else {
       return {
-        message: "User already exists",
+        message: "Utilisateur existe deja",
         statusCode: 400,
       };
     }
