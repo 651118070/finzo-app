@@ -52,7 +52,7 @@ export default function Navbar() {
             <Link href='/transactions'  className='hover:text-slate-600 dark:hover:text-slate-100'> 
             Transactions
             </Link>
-            
+            <UserButton  />
 
           </div>
          <div className='md:hidden z-[2000]'>
