@@ -76,9 +76,9 @@ export const createBudget = async (data: Budget) => {
       const userBudgetCount = user.budgets.length;
   
       // Check limits based on plan
-      if (planName === "Starter" && userBudgetCount >= 1) {
+      if (planName === "Starter" && userBudgetCount >= 2) {
         return {
-          message: "Le forfait Starter permet uniquement la creation d'un budget",
+          message: "Le forfait Starter permet uniquement la creation de deux budgets",
           statusCode: 403,
         };
       }
