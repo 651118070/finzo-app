@@ -10,7 +10,7 @@ async function main() {
         price: 0,
         frequency: "mois",
         features: [
-          "1 budget",
+          "5 budgets",
           "Statistiques de base",
           "Support communautaire"
         ],
@@ -32,7 +32,7 @@ async function main() {
         price: 1000,
         frequency: "mois",
         features: [
-          "Jusqu'à 5 budgets",
+          "Jusqu'à 10 budgets",
           "Statistiques améliorées",
           "Support prioritaire"
         ],
