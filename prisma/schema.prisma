@@ -15,23 +15,66 @@ datasource db {
 }
 
 model User {
-  id           String         @id @default(uuid())
-  email        String         @unique
-  createdAt    DateTime       @default(now())
-  budgets      Budget[]
-  Subscription Subscription[]
+  id             String          @id @default(uuid())
+  email          String          @unique
+  createdAt      DateTime        @default(now())
+  budgets        Budget[]
+  subscriptions  Subscription[]  @relation("UserSubscriptions")
+}
+// model User {
+//   id             String          @id @default(uuid())
+//   email          String          @unique
+//   createdAt      DateTime        @default(now())
+//   budgets        Budget[]
+//   subscriptions  Subscription[]  @relation("UserSubscriptions")
+// }
+// model Budget {
+//   id             String          @id @default(uuid())
+//   name           String
+//   amount         Float
+//   userId         String
+//   user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+//   emoji          String?
+//   transactions   Transaction[]
+//   subscriptions  Subscription[]  @relation("BudgetSubscriptions")
+//   createdAt      DateTime        @default(now())
+// }
+model Budget {
+  id             String          @id @default(uuid())
+  name           String
+  amount         Float
+  userId         String
+  user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  emoji          String?
+  transactions   Transaction[]
+  subscriptions  Subscription[]  @relation("BudgetSubscriptions")
+  createdAt      DateTime        @default(now())
+}
+model Plan {
+  id             String          @id @default(uuid())
+  name           String
+  price          Int
+  frequency      String
+  features       String[]
+  badge          Boolean         @default(false)
+  subscriptions  Subscription[]
 }
 
-model Budget {
-  id            String         @id @default(uuid())
-  name          String
-  amount        Float
-  userId        String
-  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  emoji         String?
-  transactions  Transaction[]
-  subscriptions Subscription[]
-  createdAt     DateTime       @default(now())
+model Subscription {
+  id          String     @id @default(uuid())
+  user        User       @relation("UserSubscriptions", fields: [userId], references: [id], onDelete: Cascade)
+  userId      String
+
+  plan        Plan       @relation(fields: [planId], references: [id], onDelete: Cascade)
+  planId      String
+
+  startDate   DateTime   @default(now())
+  endDate     DateTime
+  active      Boolean    @default(true)
+  createdAt   DateTime   @default(now())
+
+  budget      Budget?    @relation("BudgetSubscriptions", fields: [budgetId], references: [id])
+  budgetId    String?
 }
 
 model Transaction {
@@ -44,29 +87,29 @@ model Transaction {
   createdAt   DateTime @default(now())
 }
 
-model Plan {
-  id            String         @id @default(uuid())
-  name          String
-  price         Int // Store price in XAF
-  frequency     String 
-  features      String[] // array of features
-  badge         Boolean        @default(false)
-  subscriptions Subscription[]
-}
+// model Plan {
+//   id            String         @id @default(uuid())
+//   name          String
+//   price         Int // Store price in XAF
+//   frequency     String 
+//   features      String[] // array of features
+//   badge         Boolean        @default(false)
+//   subscriptions Subscription[]
+// }
 
-model Subscription {
-  id     String @id @default(uuid())
-  user   User   @relation(fields: [userId], references: [id],onDelete:Cascade )
-  userId String
+// model Subscription {
+//   id     String @id @default(uuid())
+//   user   User   @relation(fields: [userId], references: [id],onDelete:Cascade )
+//   userId String
 
-  plan   Plan   @relation(fields: [planId], references: [id],onDelete: Cascade)
-  planId String
+//   plan   Plan   @relation(fields: [planId], references: [id],onDelete: Cascade)
+//   planId String
 
-  startDate DateTime @default(now())
-  endDate   DateTime
-  active    Boolean  @default(true)
+//   startDate DateTime @default(now())
+//   endDate   DateTime
+//   active    Boolean  @default(true)
 
-  createdAt DateTime @default(now())
-  Budget    Budget?  @relation(fields: [budgetId], references: [id])
-  budgetId  String?
-}
+//   createdAt DateTime @default(now())
+//   Budget    Budget?  @relation(fields: [budgetId], references: [id])
+//   budgetId  String?
+// }

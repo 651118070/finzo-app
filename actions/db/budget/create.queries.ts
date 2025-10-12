@@ -47,7 +47,7 @@ export const createBudget = async (data: Budget) => {
       const user = await prisma.user.findUnique({
         where: { email: data.email },
         include: {
-          Subscription: {
+          subscriptions: {
             where: { active: true },
             orderBy: { endDate: "desc" }, // get the latest active subscription
             take: 1,
@@ -64,7 +64,7 @@ export const createBudget = async (data: Budget) => {
         };
       }
   
-      const activeSub = user.Subscription[0];
+      const activeSub = user.subscriptions[0];
       if (!activeSub) {
         return {
           message: "Aucune souscription active trouvée",

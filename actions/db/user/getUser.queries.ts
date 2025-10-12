@@ -6,7 +6,7 @@ export const getUser = async (email: string) => {
     const user = await prisma.user.findUnique({
       where: { email:email },
       include:{
-        Subscription:{
+        subscriptions:{
             orderBy:{
                 startDate:'desc'
             },
@@ -24,7 +24,7 @@ export const getUser = async (email: string) => {
     }
     else{
         return{
-            data:user.Subscription[0]
+            data:user.subscriptions[0]
         }
     }
    

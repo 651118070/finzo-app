@@ -12,7 +12,7 @@ export const getAllSubscriptions = async (page:number, pageSize:number) => {
         include: {
           user: true,
           plan: true,
-          Budget: true
+          budget: true
         },
         orderBy: {
           createdAt: 'desc',
