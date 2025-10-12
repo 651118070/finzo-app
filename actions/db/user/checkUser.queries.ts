@@ -84,7 +84,7 @@ export const checkUser = async (email: string) => {
               planId: freePlan.id,
               startDate: new Date(),
               endDate: new Date(
-                new Date().setFullYear(new Date().getFullYear() + 100)
+                new Date().setFullYear(new Date().getFullYear() + 1000)
               ),
               active: true,
             },

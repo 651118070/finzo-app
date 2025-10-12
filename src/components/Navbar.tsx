@@ -27,6 +27,7 @@ export default function Navbar() {
     const {isLoaded,isSignedIn,user}=useUser()
     useEffect(()=>{
       if(user?.primaryEmailAddress?.emailAddress){
+        console.log('Checking user:', user.primaryEmailAddress.emailAddress);
         checkUserAction(user.primaryEmailAddress.emailAddress)
       }
     },[user])
