@@ -21,7 +21,7 @@ async function main() {
         price: 1500,
         frequency: "mois",
         features: [
-          "Tout dans Pro",
+          "Tout dans Pr",
           "Budgets illimités",
           "Analyses avancées",
           "Rapports téléchargeables"
