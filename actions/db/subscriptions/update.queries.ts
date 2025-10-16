@@ -20,7 +20,7 @@ export const updateUserSubscription = async (userId: string, newPlanName: string
           };
         }
     
-        // 2. Find the user's active subscription
+        // 2. Find the user's active sStarterubscription
         const activeSub = await prisma.subscription.findFirst({
           where: {
             userId,

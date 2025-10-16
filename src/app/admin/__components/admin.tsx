@@ -32,9 +32,9 @@ import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { Pagination, PaginationContent, PaginationItem, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 export default function SubscriptionsPage() {
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
-  const [ ,setEditSub] = useState<Subscription | null>(null);
+  const [ editSub,setEditSub] = useState<Subscription | null>(null);
   const [newPlanName, setNewPlanName] = useState("");
-  const [open, setOpen] = useState<boolean>(false);
+  const [, setOpen] = useState<boolean>(false);
   const [page, setPage] = useState(1);
   const isSmallScreen = useMediaQuery("(max-width: 768px)");
   const pageSize = isSmallScreen ? 3 : 5;
@@ -117,89 +117,95 @@ export default function SubscriptionsPage() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {subscriptions.map((sub: Subscription) => (
-              <TableRow key={sub.id}>
-                <TableCell>
-                  {sub.user?.id}__{sub.user?.email}
-                </TableCell>
-                <TableCell>{sub.plan?.name}</TableCell>
-                <TableCell>{sub.active ? "✅" : "❌"}</TableCell>
-                <TableCell>
-                  {new Date(sub.startDate).toLocaleDateString()}
-                </TableCell>
-                <TableCell>
-                  {sub.endDate
-                    ? new Date(sub.endDate).toLocaleDateString()
-                    : "No Expiry"}
-                </TableCell>
-                <TableCell className="text-right space-x-2">
-                  {/* Edit Dialog */}
-                  <Dialog
-                    open={open}
-                    onOpenChange={setOpen}
-                  >
-                    <DialogTrigger asChild>
-                      <Button
-                        size="icon"
-                        variant="ghost"
-                        onClick={() => {
-                          setEditSub(sub);
-                          setNewPlanName(sub.plan?.name || "");
-                        }}
-                      >
-                        <Pencil className="w-4 h-4" />
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent className="sm:max-w-[425px]">
-                      <DialogHeader>
-                        <DialogTitle>Modifier le pack</DialogTitle>
-                        <DialogDescription>
-                          Changer le plan <strong>{sub.id}</strong>.
-                        </DialogDescription>
-                      </DialogHeader>
-                      <div className="grid gap-4 py-4">
-                        <div className="flex flex-col space-y-1">
-                          <label htmlFor="planName" className="font-medium">
-                            Nom du pack
-                          </label>
-                          <Input
-                            id="planName"
-                            value={newPlanName}
-                            onChange={(e) => setNewPlanName(e.target.value)}
-                            placeholder="Entrer le nouveau pack"
-                          />
-                        </div>
-                      </div>
-                      <DialogFooter>
-                        <DialogClose asChild>
-                          <Button type="button" variant="outline">
-                            Annuler
-                          </Button>
-                        </DialogClose>
-                        <Button
-                          className="bg-emerald-500 text-white hover:text-white hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-500 "
-                          variant="outline"
-                          onClick={() => {
-                            handleEdit({
-                              userId: sub.user!.id,
-                              plan: newPlanName,
-                            });
-                          }}
-                        >
-                          {mutation.isPending ? (
-                            <div className="rounded-full w-4 h-4 border-white border-2 border-t-0 animate-spin"></div>
-                          ) : (
-                            <p>Mettre a jour</p>
-                          )}
-                        </Button>
-                      </DialogFooter>
-                    </DialogContent>
-                  </Dialog>
+          {subscriptions.map((sub: Subscription) => (
+  <TableRow key={sub.id}>
+    <TableCell>
+      {sub.user?.id}__{sub.user?.email}
+    </TableCell>
+    <TableCell>{sub.plan?.name}</TableCell>
+    <TableCell>{sub.active ? "✅" : "❌"}</TableCell>
+    <TableCell>
+      {new Date(sub.startDate).toLocaleDateString()}
+    </TableCell>
+    <TableCell>
+      {sub.endDate
+        ? new Date(sub.endDate).toLocaleDateString()
+        : "No Expiry"}
+    </TableCell>
+    <TableCell className="text-right space-x-2">
+      {/* Edit Dialog */}
+      <Dialog
+        open={editSub?.id === sub.id} // 👈 open only for the selected one
+        onOpenChange={(isOpen) => {
+          if (isOpen) {
+            setEditSub(sub);
+            setNewPlanName(sub.plan?.name || "");
+          } else {
+            setEditSub(null);
+          }
+        }}
+      >
+        <DialogTrigger asChild>
+          <Button
+            size="icon"
+            variant="ghost"
+            onClick={() => {
+              setEditSub(sub);
+              setNewPlanName(sub.plan?.name || "");
+            }}
+          >
+            <Pencil className="w-4 h-4" />
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Modifier le pack</DialogTitle>
+            <DialogDescription>
+              Changer le plan <strong>{sub.plan?.name}</strong>.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="flex flex-col space-y-1">
+              <label htmlFor="planName" className="font-medium">
+                Nom du pack
+              </label>
+              <Input
+                id="planName"
+                value={newPlanName}
+                onChange={(e) => setNewPlanName(e.target.value)}
+                placeholder="Entrer le nouveau pack"
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button type="button" variant="outline">
+                Annuler
+              </Button>
+            </DialogClose>
+            <Button
+              className="bg-emerald-500 text-white hover:text-white hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-500 "
+              variant="outline"
+              onClick={() => {
+                handleEdit({
+                  userId: sub.user!.id,
+                  plan: newPlanName,
+                });
+              }}
+            >
+              {mutation.isPending ? (
+                <div className="rounded-full w-4 h-4 border-white border-2 border-t-0 animate-spin"></div>
+              ) : (
+                <p>Mettre à jour</p>
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </TableCell>
+  </TableRow>
+))}
 
-                 
-                </TableCell>
-              </TableRow>
-            ))}
           </TableBody>
         </Table>
         <Pagination>
