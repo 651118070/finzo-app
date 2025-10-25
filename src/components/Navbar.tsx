@@ -56,7 +56,7 @@ export default function Navbar() {
             <UserButton  />
 
           </div>
-         <div className='md:hidden z-[2000]'>
+         {/* <div className='md:hidden z-[2000]'>
          <Sheet>
           <SheetTrigger asChild>
             <Button variant="outline"><Menu/></Button>
@@ -72,14 +72,36 @@ export default function Navbar() {
             Transactions
             </Link>
             <UserButton  />
-            <SheetFooter>
-              <SheetClose asChild>
-                <Button variant="outline"><X/></Button>
-              </SheetClose>
-            </SheetFooter>
+            
           </SheetContent>
         </Sheet>
-         </div>
+         </div> */}
+         <div className='md:hidden flex items-center justify-between'>
+  <div className='md:hidden z-[2000]'>
+    <Sheet>
+      <SheetTrigger asChild>
+        <Button variant="outline"><Menu /></Button>
+      </SheetTrigger>
+      <SheetContent className='pt-10 px-4'>
+        <Link href='/budget' className='hover:text-slate-600 dark:hover:text-slate-900'>
+          Mon Budget
+        </Link>
+        <Link href='/dashboard' className='hover:text-slate-600 dark:hover:text-slate-900'>
+          Tableau de bord
+        </Link>
+        <Link href='/transactions' className='hover:text-slate-600 dark:hover:text-slate-900'>
+          Transactions
+        </Link>
+      </SheetContent>
+    </Sheet>
+  </div>
+
+  {/* 👇 Move this outside the Sheet */}
+  <div className='ml-4'>
+    <UserButton />
+  </div>
+</div>
+
      </div>
           
           
