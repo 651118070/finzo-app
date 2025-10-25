@@ -107,8 +107,8 @@ const [endDate, setEndDate] = useState<Date | undefined>(undefined)
     const doc = new jsPDF();
   
     // Add Logo (top-left, 40x15)
-    const imgData = await getBase64FromUrl("/globe.svg");
-    doc.addImage(imgData, "SVG", 10, 10, 40, 15);
+    const imgData = await getBase64FromUrl("/download.png");
+    doc.addImage(imgData, "PNG", 10, 10, 40, 15);
   
     // Add User Email top-right
     doc.setFontSize(10);
