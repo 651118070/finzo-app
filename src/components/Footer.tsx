@@ -6,13 +6,14 @@ export default function Footer() {
     <>
       <footer className="shadow-sm mt-10 w-full">
         <div className="py-10 text-center text-sm text-slate-500 dark:text-slate-400">
-          © 2025 Finzo. Tous droits réservés. Fait par{" "}
+        © 2025 Finzo. Tous droits réservés. 
+          {/* © 2025 Finzo. Tous droits réservés. Fait par{" "}
           <a
             href="https://techsprint.cm"
             className="underline hover:text-emerald-500"
           >
             Techsprint.cm
-          </a>
+          </a> */}
         </div>
       </footer>
 
