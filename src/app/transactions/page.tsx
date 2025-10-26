@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { getTransactionByMailAndPeriodAction } from "../../../actions/transactions/getByPeriod";
+import { getTransactionByMailAndPeriodAction, getTransactionsAction } from "../../../actions/transactions/getByPeriod";
 import { useUser } from "@clerk/nextjs";
 import TransactionItem from "@/components/TransactionItem";
 import Link from "next/link";
@@ -99,7 +99,7 @@ const [endDate, setEndDate] = useState<Date | undefined>(undefined)
     setLoading(true)
     if (!startDate || !endDate) return;
 
-    const filtered = transactions.filter(tx => {
+    const filtered = transactions1.filter(tx => {
       const txDate = new Date(tx.createdAt ?? "");
       return txDate >= startDate && txDate <= endDate;
     });
@@ -166,6 +166,14 @@ const [endDate, setEndDate] = useState<Date | undefined>(undefined)
     queryFn: () => getTransactionByMailAndPeriodAction(email, period,page2,pageSize),
     enabled: !!email && !!period,
   });
+  const {
+    data: transactionsData2,
+  } = useQuery({
+    queryKey: ["transactions2", email, period],
+    queryFn: () => getTransactionsAction(email, period),
+    enabled: !!email && !!period,
+  });
+  const transactions1 = transactionsData2?.transactions ?? [];
 
   // Handle derived state for UI
  
