@@ -281,7 +281,7 @@ export default function Dashboard() {
             </div>
 
             <div className="flex gap-y-4 flex-col">
-              <p>Budgets journaliers</p>
+              <p>Budgets</p>
               <div className="grid gap-4 w-full">
                 {budgets.length === 0 ? (
                   <div>Aucun Budgets</div>
