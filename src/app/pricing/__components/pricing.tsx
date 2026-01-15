@@ -55,7 +55,7 @@ export default function PricingPlans() {
         >
           <CardHeader>
             {index === 1 && (
-              <Badge className="fixed  left-1/2 -translate-x-1/2 flex justify-center bg-emerald-500">
+              <Badge className="absolute -top-1 left-1/2 -translate-x-1/2 flex justify-center bg-emerald-500">
                 Très populaire
               </Badge>
             )}
