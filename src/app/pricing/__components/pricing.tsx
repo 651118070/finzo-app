@@ -31,11 +31,18 @@ export default function PricingPlans() {
   const handleButtonClick = (planName: string) => {
     const lowerName = planName.toLowerCase();
     if (lowerName === "pro" || lowerName === "premium") {
-      const phoneNumber = "237651118070"; // Replace with your WhatsApp number
-      const message = `Bonjour, je suis intéressé par le forfait "${planName}".`;
+      const phoneNumber = "237621242854"; // Ton numéro WhatsApp
+      const groupLink = "https://chat.whatsapp.com/HMk5LxGm5954ebfJfVjlrL";
+    
+      const message = `Bonjour,
+    Je suis intéressé par le forfait "${planName}".
+    En attendant notre réponse, vous pouvez rejoindre notre groupe WhatsApp (${groupLink}), où nous répondons à toutes les questions liées à l’application Finzo, pour rendre votre gestion des dépenses quotidienne plus simple et professionnelle.`;
+    
       const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
       window.open(whatsappUrl, "_blank");
-    } else {
+    }
+     
+   else {
       router.push("/");
     }
   };
@@ -48,7 +55,7 @@ export default function PricingPlans() {
         >
           <CardHeader>
             {index === 1 && (
-              <Badge className="absolute -top-1 left-1/2 -translate-x-1/2 flex justify-center bg-emerald-500">
+              <Badge className="fixed  left-1/2 -translate-x-1/2 flex justify-center bg-emerald-500">
                 Très populaire
               </Badge>
             )}
