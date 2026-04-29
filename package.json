@@ -2,13 +2,18 @@
   "name": "finzo",
   "version": "0.1.0",
   "private": true,
-  "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "cron": "tsx cron-worker.ts"
-  },
+
+    "scripts": {
+      "dev": "next dev --turbopack",
+      "build": "next build",
+      "start": "next start",
+      "lint": "next lint",
+      "cron": "tsx cron-worker.ts"
+    },
+    "prisma": {
+      "seed": "node prisma/seed.ts"
+    },
+  
   "dependencies": {
     "@clerk/nextjs": "^6.25.1",
     "@prisma/client": "^6.12.0",

@@ -10,7 +10,7 @@ async function main() {
         price: 0,
         frequency: "mois",
         features: [
-          "5 budgets",
+          "1 budget",
           "Statistiques de base",
           "Support communautaire"
         ],
@@ -18,7 +18,7 @@ async function main() {
      
       {
         name: "Premium",
-        price: 1500,
+        price: 2000,
         frequency: "mois",
         features: [
           "Tout dans Pro",
@@ -29,10 +29,10 @@ async function main() {
       },
       {
         name: "Pro",
-        price: 1000,
+        price: 1500,
         frequency: "mois",
         features: [
-          "Jusqu'à 10 budgets",
+          "Jusqu'à 5 budgets",
           "Statistiques améliorées",
           "Support prioritaire"
         ],
